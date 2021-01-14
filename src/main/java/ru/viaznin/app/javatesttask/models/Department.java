@@ -1,6 +1,5 @@
 package ru.viaznin.app.javatesttask.models;
 
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +21,9 @@ public class Department {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Department> childDepartments;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Department parentDepartment;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
 
@@ -39,7 +41,8 @@ public class Department {
         this.childDepartments = childDepartments;
     }
 
-    protected Department(){}
+    protected Department() {
+    }
 
     public int getId() {
         return id;
@@ -73,8 +76,18 @@ public class Department {
         this.users = users;
     }
 
-    public void addChild(Department child){
-        if(childDepartments == null)
+    public Department getParentDepartment() {
+        return parentDepartment;
+    }
+
+    public void setParentDepartment(Department parentDepartment) {
+        this.parentDepartment = parentDepartment;
+    }
+
+    public void addChild(Department child) {
+        child.setParentDepartment(this);
+
+        if (childDepartments == null)
             childDepartments = new ArrayList<>();
 
         childDepartments.add(child);
