@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link rel="stylesheet" href="/css/departmentIndex.css">
+</head>
+<body>
+
+<div class="columns" style="float: left" th:insert="/department/departmentsTree :: tree" th:with="departments = ${rootDepartments}"></div>
+<form class="columns" style="float: right" th:if="${selectedDepartment != null}"
+      th:method="POST" th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
+      th:object="${selectedDepartment}">
+
+    <label for="name" style="font-size: x-large">Name: </label>
+    <input type="text" style="font-size: large" th:field="*{name}" id="name"/>
+
+    <input class="button clear" type="submit" value="Update department"/>
+</form>
+
+</body>
+</html>

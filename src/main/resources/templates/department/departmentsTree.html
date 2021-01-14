@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Departments</title>
+    <title>Departments tree</title>
 </head>
 <body>
-<div th:fragment="submenu" th:remove="tag">
+<div th:fragment="tree" th:remove="tag">
     <ul>
+        <!--/*@thymesVar id="departments" type="java.util.List<ru.viaznin.app.javatesttask.models.Department>"*/-->
         <li th:each="department : ${departments}">
-            <span th:text="${department.getName()}"></span>
+            <a th:text="${department.getName()}" th:href="@{/department(selectedDepartmentId = ${department.getId()})}"></a>
             <div th:with="departments = ${department.getChildDepartments()}"
-                 th:include="this :: submenu"
+                 th:include="this :: tree"
                  th:remove="tag"></div>
         </li>
     </ul>
