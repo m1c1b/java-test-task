@@ -26,7 +26,7 @@ public class DepartmentController {
     public String get(Model model) {
         var departments = departmentsRepository.findAll()
                 .stream()
-                .filter(d -> d.getChildDepartments().size() > 0)
+                .filter(d -> d.getParentDepartment() == null)
                 .collect(Collectors.toList());
 
         model.addAttribute("departments", departments);
