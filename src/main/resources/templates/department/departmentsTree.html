@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+</head>
+<body>
+<div th:fragment="submenu" th:remove="tag">
+    <ul>
+        <li th:each="department : ${departments}">
+            <span th:text="${department.getName()}"></span>
+            <div th:with="departments = ${department.getChildDepartments()}"
+                 th:include="this :: submenu"
+                 th:remove="tag"></div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
