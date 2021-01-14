@@ -28,13 +28,17 @@ public class DatabaseInitializer implements ApplicationRunner {
         if (departments.size() > 0)
             return;
 
-        var firstRoot = new Department("Root 1");
-        firstRoot.addChild(new Department("Child 1 of root 1"));
-        firstRoot.addChild(new Department("Child 2 of root 1"));
+        var firstRoot = new Department("Department 1");
+        var departmentOneOne = new Department("Department 1.1");
+        departmentOneOne.addChild(new Department("Department 1.1.1"));
+        firstRoot.addChild(departmentOneOne);
+        firstRoot.addChild(new Department("Department 1.2"));
 
-        var secondRoot = new Department("Root 2");
-        secondRoot.addChild(new Department("Child 1 of root 2"));
-        secondRoot.addChild(new Department("Child 2 of root 2"));
+        var secondRoot = new Department("Department 2");
+        var departmentTwoOne = new Department("Department 2.1");
+        departmentTwoOne.addChild(new Department("Department 2.1.1"));
+        secondRoot.addChild(departmentTwoOne);
+        secondRoot.addChild(new Department("Department 2.1"));
 
         var newDepartments = new ArrayList<>(Arrays.asList(firstRoot, secondRoot));
 
