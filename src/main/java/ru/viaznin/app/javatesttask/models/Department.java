@@ -11,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "t_departments")
 public class Department {
+    //region Fields
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,6 +29,10 @@ public class Department {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
 
+    //endregion
+
+    //region Ctors
+
     public Department(String name, List<Department> childDepartments, List<User> users) {
         this(name, childDepartments);
         this.users = users;
@@ -41,8 +47,11 @@ public class Department {
         this.childDepartments = childDepartments;
     }
 
-    protected Department() {
-    }
+    protected Department(){}
+
+    //endregion
+
+    //region Default setters and getters
 
     public int getId() {
         return id;
@@ -84,7 +93,9 @@ public class Department {
         this.parentDepartment = parentDepartment;
     }
 
-    public void addChild(Department child) {
+    //endregion
+
+    public void addChild(Department child){
         child.setParentDepartment(this);
 
         if (childDepartments == null)
