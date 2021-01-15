@@ -47,7 +47,7 @@ public class Department {
         this.childDepartments = childDepartments;
     }
 
-    protected Department(){}
+    public Department(){}
 
     //endregion
 

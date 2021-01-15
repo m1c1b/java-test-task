@@ -34,6 +34,7 @@ public class DepartmentController {
                 .collect(Collectors.toList());
 
         model.addAttribute("rootDepartments", rootDepartments);
+        model.addAttribute("newDepartment", new Department());
 
         if (selectedDepartmentId != null) {
             var selectedDepartment = departments
@@ -48,10 +49,26 @@ public class DepartmentController {
         return "department/index";
     }
 
+    //TODO Must be PATCH method
     @PostMapping("/edit/{id}")
     public String edit(@ModelAttribute("selectedDepartment") Department department, @PathVariable long id) {
         departmentsRepository.fullDepartmentUpdate(department, id);
 
         return "redirect:/department?selectedDepartmentId=" + id;
+    }
+
+    @PostMapping("/create")
+    public String create(@ModelAttribute("newDepartment") Department newDepartment, @RequestParam(required = false) Long parentId){
+        departmentsRepository.create(newDepartment, parentId);
+
+        return "redirect:/department";
+    }
+
+    //TODO Must be DELETE method
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable long id){
+        departmentsRepository.deleteDepartmentById(id);
+
+        return "redirect:/department";
     }
 }

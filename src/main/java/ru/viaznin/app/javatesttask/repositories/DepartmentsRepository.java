@@ -17,4 +17,27 @@ public interface DepartmentsRepository extends JpaRepository<Department, Long> {
 
         save(updatingDepartment);
     }
+
+    default void create(Department newDepartment, Long parentId){
+        if(parentId == null) {
+            save(newDepartment);
+            return;
+        }
+
+        var parentDepartment = findById(parentId).orElseThrow();
+
+        parentDepartment.addChild(newDepartment);
+
+        save(parentDepartment);
+    }
+
+    default void deleteDepartmentById(long id){
+        var department = findById(id).orElseThrow();
+
+        if(department.getParentDepartment() != null)
+            department.getParentDepartment().getChildDepartments().removeIf(d -> d.getId() == id);
+        department.setParentDepartment(null);
+
+        delete(department);
+    }
 }
