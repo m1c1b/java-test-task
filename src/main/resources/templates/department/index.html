@@ -7,18 +7,18 @@
 </head>
 <body>
 
-<div class="columns" style="float: left">
-    <h2>Departments</h2>
+<div id="top"></div>
+<div id="rectangle1" class="column" style="float: left">
+    <h2><a href="/department">Departments</a></h2>
     <br/>
 
     <div th:insert="/department/departmentsTree :: tree"
          th:with="departments = ${rootDepartments}"></div>
 </div>
 
-<div class="columns" style="float: right">
+<div id="rectangle2" class="column" style="float: right">
     <h2 th:if="${selectedDepartment != null}">Edit
         department</h2>
-    <br/>
 
     <form th:if="${selectedDepartment != null}"
           th:method="POST"
@@ -55,5 +55,7 @@
         <input class="button clear" type="submit" value="Create department"/>
     </form>
 </div>
+
+<div id="bottom"></div>
 </body>
 </html>
