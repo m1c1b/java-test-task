@@ -38,7 +38,7 @@ public class DatabaseInitializer implements ApplicationRunner {
         var departmentTwoOne = new Department("Department 2.1");
         departmentTwoOne.addChild(new Department("Department 2.1.1"));
         secondRoot.addChild(departmentTwoOne);
-        secondRoot.addChild(new Department("Department 2.1"));
+        secondRoot.addChild(new Department("Department 2.2"));
 
         var newDepartments = new ArrayList<>(Arrays.asList(firstRoot, secondRoot));
 
