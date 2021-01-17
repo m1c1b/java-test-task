@@ -17,12 +17,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Controller for interacting with users
+ *
  * @author Ilya Viaznin
  */
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    /**
+     * User repository
+     */
     private final UserRepository userRepository;
+    /**
+     * Department repository
+     */
     private final DepartmentsRepository departmentsRepository;
 
     @Autowired
@@ -31,6 +39,15 @@ public class UserController {
         this.departmentsRepository = departmentsRepository;
     }
 
+    /**
+     * Get index page
+     *
+     * @param departmentId   Identifier of department
+     * @param selectedUserId Identifier of selected user
+     * @param searchName     String for searching users by name
+     * @param model          Model
+     * @return Index page
+     */
     @GetMapping
     public String index(@RequestParam(required = false) Long departmentId, @RequestParam(required = false) Long selectedUserId,
                         @RequestParam(required = false) String searchName, final Model model) {
@@ -63,6 +80,15 @@ public class UserController {
         return "/user/index";
     }
 
+    /**
+     * Edit user
+     *
+     * @param user               Edited user model
+     * @param bindingResult      Validation result
+     * @param userId             Identifier of editing user
+     * @param redirectAttributes Attributes for sending params between views
+     * @return Index page with all users of department and selected edited user
+     */
     @PatchMapping("/edit/{userId}")
     @SuppressWarnings("SpringMVCViewInspection")
     public String edit(@ModelAttribute("selectedUser") @Valid User user, BindingResult bindingResult, @PathVariable long userId, final RedirectAttributes redirectAttributes) {
@@ -75,6 +101,14 @@ public class UserController {
         return "redirect:/user?" + "selectedUserId=" + userId + "&" + "departmentId=" + user.getDepartment().getId();
     }
 
+    /**
+     * Create new user
+     *
+     * @param newUser            New user model
+     * @param bindingResult      Validation result
+     * @param redirectAttributes Attributes for sending params between views
+     * @return Index page with all users of department
+     */
     @PostMapping("/create")
     @SuppressWarnings("SpringMVCViewInspection")
     public String create(@ModelAttribute("newUser") @Valid User newUser, BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
@@ -87,6 +121,12 @@ public class UserController {
         return "redirect:/user?" + "departmentId=" + newUser.getDepartment().getId();
     }
 
+    /**
+     * Delete user by identifier
+     *
+     * @param id Identifier of deleting user
+     * @return Index page with all users
+     */
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         userRepository.deleteById(id);

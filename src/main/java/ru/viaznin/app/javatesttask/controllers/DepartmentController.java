@@ -15,11 +15,16 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 /**
+ * Controller for interacting with departments
+ *
  * @author Ilya Viaznin
  */
 @Controller
 @RequestMapping("/department")
 public class DepartmentController {
+    /**
+     * Department repository
+     */
     private final DepartmentsRepository departmentsRepository;
 
     @Autowired
@@ -27,6 +32,13 @@ public class DepartmentController {
         this.departmentsRepository = departmentsRepository;
     }
 
+    /**
+     * Get index page
+     *
+     * @param selectedDepartmentId Identifier of selected department
+     * @param model                Model
+     * @return Index page
+     */
     @GetMapping
     public String index(@RequestParam(required = false) Integer selectedDepartmentId, Model model) {
         var departments = departmentsRepository.findAll();
@@ -53,6 +65,15 @@ public class DepartmentController {
         return "department/index";
     }
 
+    /**
+     * Edit department
+     *
+     * @param department         Edited department model
+     * @param bindingResult      Validation result
+     * @param id                 Identifier of editing department
+     * @param redirectAttributes Attributes for sending params between views
+     * @return Index page with edited department
+     */
     @PatchMapping("/edit/{id}")
     public String edit(@ModelAttribute("selectedDepartment") @Valid Department department, BindingResult bindingResult, @PathVariable long id, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
@@ -64,6 +85,15 @@ public class DepartmentController {
         return "redirect:/department?selectedDepartmentId=" + id;
     }
 
+    /**
+     * Create new department
+     *
+     * @param newDepartment      New department model
+     * @param bindingResult      Validation result
+     * @param parentId           Identifier of parent department
+     * @param redirectAttributes Attributes for sending params between views
+     * @return Index page or index page with selected parent department
+     */
     @PostMapping("/create")
     public String create(@ModelAttribute("newDepartment") @Valid Department newDepartment, BindingResult bindingResult, @RequestParam(required = false) Long parentId, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
@@ -77,6 +107,12 @@ public class DepartmentController {
         return parentId == null ? index : index + "?selectedDepartmentId=" + parentId;
     }
 
+    /**
+     * Delete department by identifier
+     *
+     * @param id Identifier of deleting department
+     * @return Index page
+     */
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         departmentsRepository.deleteDepartmentById(id);
