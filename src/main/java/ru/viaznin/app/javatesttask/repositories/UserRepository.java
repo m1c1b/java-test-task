@@ -9,9 +9,21 @@ import java.util.List;
  * @author Ilya Viaznin
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+    /**
+     * Find departments by name substring
+     *
+     * @param searchName name substring
+     * @return Departments
+     */
     List<User> findByNameLikeIgnoreCaseOrderByName(String searchName);
 
-    default void update(User user, long userId){
+    /**
+     * Update all user fields
+     *
+     * @param user   Edited user model
+     * @param userId Identifier of editing user
+     */
+    default void fullUpdate(User user, long userId) {
         var userFromDb = findById(userId).orElseThrow();
 
         userFromDb.setName(user.getName());

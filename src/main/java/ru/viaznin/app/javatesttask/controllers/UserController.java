@@ -44,7 +44,7 @@ public class UserController {
      *
      * @param departmentId   Identifier of department
      * @param selectedUserId Identifier of selected user
-     * @param searchName     String for searching users by name
+     * @param searchName     Substring for searching users by name
      * @param model          Model
      * @return Index page
      */
@@ -93,7 +93,7 @@ public class UserController {
     @SuppressWarnings("SpringMVCViewInspection")
     public String edit(@ModelAttribute("selectedUser") @Valid User user, BindingResult bindingResult, @PathVariable long userId, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
-            userRepository.update(user, userId);
+            userRepository.fullUpdate(user, userId);
 
         ControllerExtensions
                 .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);

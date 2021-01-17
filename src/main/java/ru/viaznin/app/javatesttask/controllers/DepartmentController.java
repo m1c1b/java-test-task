@@ -77,7 +77,7 @@ public class DepartmentController {
     @PatchMapping("/edit/{id}")
     public String edit(@ModelAttribute("selectedDepartment") @Valid Department department, BindingResult bindingResult, @PathVariable long id, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
-            departmentsRepository.fullDepartmentUpdate(department, id);
+            departmentsRepository.fullUpdate(department, id);
 
         ControllerExtensions
                 .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "editErrors");
