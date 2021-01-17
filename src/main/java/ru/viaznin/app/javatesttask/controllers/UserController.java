@@ -65,35 +65,27 @@ public class UserController {
 
     //TODO Must be PATCH method
     @PostMapping("/edit/{userId}")
+    @SuppressWarnings("SpringMVCViewInspection")
     public String edit(@ModelAttribute("selectedUser") @Valid User user, BindingResult bindingResult, @PathVariable long userId, final RedirectAttributes redirectAttributes) {
-        var indexWithParams = "redirect:/user?" + "selectedUserId=" + userId + "&" + "departmentId=" + user.getDepartment().getId();
+        if (!bindingResult.hasErrors())
+            userRepository.update(user, userId);
 
-        if (bindingResult.hasErrors()) {
-            ControllerExtensions
-                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
+        ControllerExtensions
+                .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
 
-            return indexWithParams;
-        }
-
-        userRepository.update(user, userId);
-
-        return indexWithParams;
+        return "redirect:/user?" + "selectedUserId=" + userId + "&" + "departmentId=" + user.getDepartment().getId();
     }
 
     @PostMapping("/create")
+    @SuppressWarnings("SpringMVCViewInspection")
     public String create(@ModelAttribute("newUser") @Valid User newUser, BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        var indexWithParams = "redirect:/user?" + "departmentId=" + newUser.getDepartment().getId();
+        if (!bindingResult.hasErrors())
+            userRepository.save(newUser);
 
-        if (bindingResult.hasErrors()) {
-            ControllerExtensions
-                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
+        ControllerExtensions
+                .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
 
-            return indexWithParams;
-        }
-
-        userRepository.save(newUser);
-
-        return indexWithParams;
+        return "redirect:/user?" + "departmentId=" + newUser.getDepartment().getId();
     }
 
     //TODO Must be DELETE method

@@ -56,34 +56,26 @@ public class DepartmentController {
     //TODO Must be PATCH method
     @PostMapping("/edit/{id}")
     public String edit(@ModelAttribute("selectedDepartment") @Valid Department department, BindingResult bindingResult, @PathVariable long id, final RedirectAttributes redirectAttributes) {
-        var indexWithParams = "redirect:/department?selectedDepartmentId=" + id;
+        if (!bindingResult.hasErrors())
+            departmentsRepository.fullDepartmentUpdate(department, id);
 
-        if (bindingResult.hasErrors()) {
-            ControllerExtensions
-                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "editErrors");
+        ControllerExtensions
+                .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "editErrors");
 
-            return indexWithParams;
-        }
-
-        departmentsRepository.fullDepartmentUpdate(department, id);
-
-        return indexWithParams;
+        return "redirect:/department?selectedDepartmentId=" + id;
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute("newDepartment") @Valid Department newDepartment, BindingResult bindingResult, @RequestParam(required = false) Long parentId, final RedirectAttributes redirectAttributes) {
+        if (!bindingResult.hasErrors())
+            departmentsRepository.create(newDepartment, parentId);
+
+        ControllerExtensions
+                .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "createErrors");
+
         var index = "redirect:/department";
 
-        if (bindingResult.hasErrors()) {
-            ControllerExtensions
-                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "createErrors");
-
-            return index;
-        }
-
-        departmentsRepository.create(newDepartment, parentId);
-
-        return index;
+        return parentId == null ? index : index + "?selectedDepartmentId=" + parentId;
     }
 
     //TODO Must be DELETE method
