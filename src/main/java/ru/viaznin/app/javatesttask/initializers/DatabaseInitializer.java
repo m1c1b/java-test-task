@@ -74,7 +74,7 @@ public class DatabaseInitializer implements ApplicationRunner {
 
                 var randomPhoneNumber = (Integer) random.nextInt(Integer.MAX_VALUE);
 
-                newUsers.add(new User(randomName, random.nextInt(100), randomPhoneNumber.toString(), d));
+                newUsers.add(new User(randomName, random.nextInt(100) + 1, randomPhoneNumber.toString(), d));
             }
         });
 
