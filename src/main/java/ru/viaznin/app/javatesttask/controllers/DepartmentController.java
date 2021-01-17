@@ -3,10 +3,14 @@ package ru.viaznin.app.javatesttask.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.viaznin.app.javatesttask.extensions.ControllerExtensions;
 import ru.viaznin.app.javatesttask.models.Department;
 import ru.viaznin.app.javatesttask.repositories.DepartmentsRepository;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -51,22 +55,40 @@ public class DepartmentController {
 
     //TODO Must be PATCH method
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute("selectedDepartment") Department department, @PathVariable long id) {
+    public String edit(@ModelAttribute("selectedDepartment") @Valid Department department, BindingResult bindingResult, @PathVariable long id, final RedirectAttributes redirectAttributes) {
+        var indexWithParams = "redirect:/department?selectedDepartmentId=" + id;
+
+        if (bindingResult.hasErrors()) {
+            ControllerExtensions
+                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "editErrors");
+
+            return indexWithParams;
+        }
+
         departmentsRepository.fullDepartmentUpdate(department, id);
 
-        return "redirect:/department?selectedDepartmentId=" + id;
+        return indexWithParams;
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("newDepartment") Department newDepartment, @RequestParam(required = false) Long parentId){
+    public String create(@ModelAttribute("newDepartment") @Valid Department newDepartment, BindingResult bindingResult, @RequestParam(required = false) Long parentId, final RedirectAttributes redirectAttributes) {
+        var index = "redirect:/department";
+
+        if (bindingResult.hasErrors()) {
+            ControllerExtensions
+                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, "createErrors");
+
+            return index;
+        }
+
         departmentsRepository.create(newDepartment, parentId);
 
-        return "redirect:/department";
+        return index;
     }
 
     //TODO Must be DELETE method
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable long id){
+    public String delete(@PathVariable long id) {
         departmentsRepository.deleteDepartmentById(id);
 
         return "redirect:/department";

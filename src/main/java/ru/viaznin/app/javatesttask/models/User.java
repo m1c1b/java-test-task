@@ -1,6 +1,10 @@
 package ru.viaznin.app.javatesttask.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 /**
  * @author Ilya Viaznin
@@ -15,12 +19,17 @@ public class User {
     private long id;
 
     @Column(name = "name")
+    @Size(min = 2, max = 20, message = "Username length must be between 2 and 20 symbols")
     private String name;
 
     @Column(name = "age")
-    private int age;
+    @Positive(message = "Age must be a positive number")
+    @NotNull(message = "Age cannot be null")
+    private Integer age;
 
     @Column(name = "phone_number")
+    @NotNull(message = "Phone number cannot be null")
+    @NotEmpty(message = "Phone number cannot be empty")
     private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -64,11 +73,11 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

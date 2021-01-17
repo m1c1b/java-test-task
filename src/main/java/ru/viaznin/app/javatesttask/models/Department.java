@@ -2,6 +2,7 @@ package ru.viaznin.app.javatesttask.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Department {
     private long id;
 
     @Column(name = "name")
+    @Size(min = 1, message = "Department name length must be more than one symbol")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

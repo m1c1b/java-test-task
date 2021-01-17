@@ -34,6 +34,12 @@
               th:action="@{/user/edit/{id}(id=${selectedUser.getId()})}"
               th:object="${selectedUser}">
 
+            <!--/*@thymesVar id="errors" type="java.util.List<java.lang.String>"*/-->
+            <ul th:if="${errors != null && errors.size() > 0}"
+                style="color: red">
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
+
             <label for="name" style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"
                    id="name"/>
@@ -78,6 +84,12 @@
               th:method="POST"
               th:action="@{/user/create}"
               th:object="${newUser}">
+
+            <!--/*@thymesVar id="errors" type="java.util.List<java.lang.String>"*/-->
+            <ul th:if="${errors != null && errors.size() > 0}"
+                style="color: red">
+                <li th:each="error : ${errors}" th:text="${error}"></li>
+            </ul>
 
             <label for="newUsername" style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"

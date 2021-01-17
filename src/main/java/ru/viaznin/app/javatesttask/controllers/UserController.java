@@ -3,11 +3,15 @@ package ru.viaznin.app.javatesttask.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.viaznin.app.javatesttask.extensions.ControllerExtensions;
 import ru.viaznin.app.javatesttask.models.User;
 import ru.viaznin.app.javatesttask.repositories.DepartmentsRepository;
 import ru.viaznin.app.javatesttask.repositories.UserRepository;
 
+import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +33,7 @@ public class UserController {
 
     @GetMapping
     public String index(@RequestParam(required = false) Long departmentId, @RequestParam(required = false) Long selectedUserId,
-                        @RequestParam(required = false) String searchName, Model model) {
+                        @RequestParam(required = false) String searchName, final Model model) {
         List<User> userList = userRepository.findAll()
                 .stream()
                 .sorted(Comparator.comparing(User::getName))
@@ -50,7 +54,6 @@ public class UserController {
         if (selectedUserId != null) {
             var selectedUser = userRepository.findById(selectedUserId).orElse(null);
             model.addAttribute("selectedUser", selectedUser);
-
         }
 
         var departments = departmentsRepository.findAll();
@@ -61,20 +64,36 @@ public class UserController {
     }
 
     //TODO Must be PATCH method
-    @SuppressWarnings("UnnecessaryLocalVariable")
     @PostMapping("/edit/{userId}")
-    public String edit(@ModelAttribute("selectedUser") User user, @PathVariable long userId) {
+    public String edit(@ModelAttribute("selectedUser") @Valid User user, BindingResult bindingResult, @PathVariable long userId, final RedirectAttributes redirectAttributes) {
+        var indexWithParams = "redirect:/user?" + "selectedUserId=" + userId + "&" + "departmentId=" + user.getDepartment().getId();
+
+        if (bindingResult.hasErrors()) {
+            ControllerExtensions
+                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
+
+            return indexWithParams;
+        }
+
         userRepository.update(user, userId);
 
-        var indexWithParams = "redirect:/user?" + "selectedUserId=" + userId + "&" + "departmentId=" + user.getDepartment().getId();
         return indexWithParams;
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("newUser") User newUser){
+    public String create(@ModelAttribute("newUser") @Valid User newUser, BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        var indexWithParams = "redirect:/user?" + "departmentId=" + newUser.getDepartment().getId();
+
+        if (bindingResult.hasErrors()) {
+            ControllerExtensions
+                    .AddBindingResultErrorsToRedirectAttributes(bindingResult, redirectAttributes, null);
+
+            return indexWithParams;
+        }
+
         userRepository.save(newUser);
 
-        return "redirect:/user";
+        return indexWithParams;
     }
 
     //TODO Must be DELETE method

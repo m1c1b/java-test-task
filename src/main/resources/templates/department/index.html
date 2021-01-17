@@ -25,6 +25,12 @@
               th:action="@{/department/create(parentId = ${selectedDepartment == null ? null : selectedDepartment.getId()})}"
               th:object="${newDepartment}">
 
+            <!--/*@thymesVar id="createErrors" type="java.util.List<java.lang.String>"*/-->
+            <ul th:if="${createErrors != null && createErrors.size() > 0}"
+                style="color: red">
+                <li th:each="error : ${createErrors}" th:text="${error}"></li>
+            </ul>
+
             <label for="newDepartmentName"
                    style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"
@@ -41,6 +47,12 @@
               th:method="POST"
               th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
               th:object="${selectedDepartment}">
+
+            <!--/*@thymesVar id="editErrors" type="java.util.List<java.lang.String>"*/-->
+            <ul th:if="${editErrors != null && editErrors.size() > 0}"
+                style="color: red">
+                <li th:each="error : ${editErrors}" th:text="${error}"></li>
+            </ul>
 
             <label for="name" style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"
