@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-    <link rel="stylesheet" href="/css/departmentIndex.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
 <div id="top"></div>
@@ -27,82 +27,86 @@
     </div>
 
     <div id="rectangle2" class="column" style="float: right">
-        <h2 th:text="${selectedUser == null ? 'Add new user' : 'Edit user'}" ></h2>
-
-        <form th:if="${selectedUser != null}"
-              th:method="POST"
-              th:action="@{/user/delete/{id}(id=${selectedUser.getId()})}"
-              th:object="${selectedUser}">
-
-            <input class="button clear" type="submit"
-                   value="🗑"/>
-        </form>
+        <h2 th:text="${selectedUser == null ? 'Add new user' : 'Edit user'}"></h2>
 
         <form th:if="${selectedUser != null}"
               th:method="POST"
               th:action="@{/user/edit/{id}(id=${selectedUser.getId()})}"
               th:object="${selectedUser}">
 
-            <label for="name" style="font-size: x-large">Name: </label>
+            <label for="name" style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"
                    id="name"/>
             <br/>
 
-            <label for="age" style="font-size: x-large">Age: </label>
+            <label for="age" style="font-size: large">Age: </label>
             <input type="text" style="font-size: large" th:field="*{age}"
                    id="age"/>
             <br/>
 
-            <label for="phoneNumber" style="font-size: x-large">Phone: </label>
-            <input type="text" style="font-size: large" th:field="*{phoneNumber}"
+            <label for="phoneNumber" style="font-size: large">Phone: </label>
+            <input type="text" style="font-size: large"
+                   th:field="*{phoneNumber}"
                    id="phoneNumber"/>
             <br/>
 
             <label for="departmentId"
-                   style="font-size: x-large">Department: </label>
+                   style="font-size: large">Department: </label>
             <select th:field="*{department.id}" id="departmentId">
                 <option th:each="department : ${departments}"
                         th:value="${department.id}"
                         th:text="${department.name}"></option>
             </select>
 
-            <input class="button clear" type="submit"
+            <input style="float: right" class="button clear" type="submit"
                    value="🔄"/>
+
+            <div style="display: flex;flex-direction: column;align-items: flex-end;">
+                <form
+                        th:if="${selectedUser != null}"
+                        th:method="POST"
+                        th:action="@{/user/delete/{id}(id=${selectedUser.getId()})}"
+                        th:object="${selectedUser}">
+
+                    <input class="button clear" type="submit"
+                           value="🗑"/>
+                </form>
+            </div>
         </form>
-        <br/>
 
         <form th:if="${selectedUser == null}"
               th:method="POST"
               th:action="@{/user/create}"
               th:object="${newUser}">
 
-            <label for="newUsername" style="font-size: x-large">Name: </label>
+            <label for="newUsername" style="font-size: large">Name: </label>
             <input type="text" style="font-size: large" th:field="*{name}"
                    id="newUsername"/>
             <br/>
 
-            <label for="newUserAge" style="font-size: x-large">Age: </label>
+            <label for="newUserAge" style="font-size: large">Age: </label>
             <input type="text" style="font-size: large" th:field="*{age}"
                    id="newUserAge"/>
             <br/>
 
-            <label for="newUserPhoneNumber" style="font-size: x-large">Phone: </label>
-            <input type="text" style="font-size: large" th:field="*{phoneNumber}"
+            <label for="newUserPhoneNumber"
+                   style="font-size: large">Phone: </label>
+            <input type="text" style="font-size: large"
+                   th:field="*{phoneNumber}"
                    id="newUserPhoneNumber"/>
             <br/>
 
             <label for="newUserDepartmentId"
-                   style="font-size: x-large">Department: </label>
+                   style="font-size: large">Department: </label>
             <select th:field="*{department.id}" id="newUserDepartmentId">
                 <option th:each="department : ${departments}"
                         th:value="${department.id}"
                         th:text="${department.name}"></option>
             </select>
 
-            <input class="button clear" type="submit"
-                   value="🔄"/>
+            <input style="float: right" class="button clear" type="submit"
+                   value="🆕"/>
         </form>
-        <br/>
     </div>
 </div>
 

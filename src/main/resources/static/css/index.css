@@ -55,3 +55,8 @@ a {
 input.clear {
     clear: both;
 }
+
+label {
+    width: 140px;
+    display: inline-block;
+}
