@@ -18,65 +18,70 @@
     </div>
 
     <div id="rectangle2" class="column" style="float: right">
+        <div style="width: 20%; height: 100%"></div>
 
-        <h2 th:text="${selectedDepartment == null ? 'Add root department' : 'Add child department'}"></h2>
+        <div style="flex-direction: column;    align-items: center;
+    justify-content: center;">
+            <h2 th:text="${selectedDepartment == null ? 'Add root department' : 'Add child department'}"></h2>
 
-        <form th:method="POST"
-              th:action="@{/department/create(parentId = ${selectedDepartment == null ? null : selectedDepartment.getId()})}"
-              th:object="${newDepartment}">
+            <form th:method="POST"
+                  th:action="@{/department/create(parentId = ${selectedDepartment == null ? null : selectedDepartment.getId()})}"
+                  th:object="${newDepartment}">
 
-            <!--/*@thymesVar id="createErrors" type="java.util.List<java.lang.String>"*/-->
-            <ul th:if="${createErrors != null && createErrors.size() > 0}"
-                style="color: red">
-                <li th:each="error : ${createErrors}" th:text="${error}"></li>
-            </ul>
+                <!--/*@thymesVar id="createErrors" type="java.util.List<java.lang.String>"*/-->
+                <ul th:if="${createErrors != null && createErrors.size() > 0}"
+                    style="color: red">
+                    <li th:each="error : ${createErrors}"
+                        th:text="${error}"></li>
+                </ul>
 
-            <label for="newDepartmentName"
-                   style="font-size: large">Name: </label>
-            <input type="text" style="font-size: large" th:field="*{name}"
-                   id="newDepartmentName"/>
+                <label for="newDepartmentName"
+                       style="font-size: large">Name: </label>
+                <input type="text" style="font-size: large" th:field="*{name}"
+                       id="newDepartmentName"/>
 
-            <input class="button clear" type="submit"
-                   value="🆕"/>
-        </form>
+                <input class="button clear" type="submit"
+                       value="🆕"/>
+            </form>
 
-        <h2 th:if="${selectedDepartment != null}">Edit
-            department</h2>
+            <h2 th:if="${selectedDepartment != null}">Edit
+                department</h2>
 
-        <form th:if="${selectedDepartment != null}"
-              th:method="POST"
-              th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
-              th:object="${selectedDepartment}">
+            <form th:if="${selectedDepartment != null}"
+                  th:method="PATCH"
+                  th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
+                  th:object="${selectedDepartment}">
 
-            <!--/*@thymesVar id="editErrors" type="java.util.List<java.lang.String>"*/-->
-            <ul th:if="${editErrors != null && editErrors.size() > 0}"
-                style="color: red">
-                <li th:each="error : ${editErrors}" th:text="${error}"></li>
-            </ul>
+                <!--/*@thymesVar id="editErrors" type="java.util.List<java.lang.String>"*/-->
+                <ul th:if="${editErrors != null && editErrors.size() > 0}"
+                    style="color: red">
+                    <li th:each="error : ${editErrors}" th:text="${error}"></li>
+                </ul>
 
-            <label for="name" style="font-size: large">Name: </label>
-            <input type="text" style="font-size: large" th:field="*{name}"
-                   id="name"/>
+                <label for="name" style="font-size: large">Name: </label>
+                <input type="text" style="font-size: large" th:field="*{name}"
+                       id="name"/>
 
-            <input class="button clear" type="submit"
-                   value="🔄"/>
+                <input class="button clear" type="submit"
+                       value="🔄"/>
 
-            <div style="display: flex;flex-direction: column;align-items: flex-end;">
-                <form th:if="${selectedDepartment != null}"
-                      th:method="POST"
-                      th:action="@{/department/delete/{id}(id=${selectedDepartment.getId()})}"
-                      th:object="${selectedDepartment}">
+            </form>
+            <form style="margin-left: auto"
+                  th:if="${selectedDepartment != null}"
+                  th:method="DELETE"
+                  th:action="@{/department/delete/{id}(id=${selectedDepartment.getId()})}"
+                  th:object="${selectedDepartment}">
 
-                    <input class="button clear" type="submit"
-                           value="🗑"/>
-                </form>
-            </div>
-        </form>
+                <input class="button clear" type="submit"
+                       value="🗑"/>
+            </form>
+            <h3 th:if="${selectedDepartment != null}"><a
+                    th:href="@{/user/(departmentId = ${selectedDepartment.getId()})}">Department
+                users</a>
+            </h3>
+        </div>
 
-        <h3 th:if="${selectedDepartment != null}"><a
-                th:href="@{/user/(departmentId = ${selectedDepartment.getId()})}">Department
-            users</a>
-        </h3>
+        <div style="width: 20%; height: 100%"></div>
     </div>
 </div>
 <div id="bottom"></div>

@@ -63,8 +63,7 @@ public class UserController {
         return "/user/index";
     }
 
-    //TODO Must be PATCH method
-    @PostMapping("/edit/{userId}")
+    @PatchMapping("/edit/{userId}")
     @SuppressWarnings("SpringMVCViewInspection")
     public String edit(@ModelAttribute("selectedUser") @Valid User user, BindingResult bindingResult, @PathVariable long userId, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
@@ -88,8 +87,7 @@ public class UserController {
         return "redirect:/user?" + "departmentId=" + newUser.getDepartment().getId();
     }
 
-    //TODO Must be DELETE method
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         userRepository.deleteById(id);
 

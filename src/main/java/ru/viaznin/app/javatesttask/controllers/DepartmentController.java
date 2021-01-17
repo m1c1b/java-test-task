@@ -53,8 +53,7 @@ public class DepartmentController {
         return "department/index";
     }
 
-    //TODO Must be PATCH method
-    @PostMapping("/edit/{id}")
+    @PatchMapping("/edit/{id}")
     public String edit(@ModelAttribute("selectedDepartment") @Valid Department department, BindingResult bindingResult, @PathVariable long id, final RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors())
             departmentsRepository.fullDepartmentUpdate(department, id);
@@ -78,8 +77,7 @@ public class DepartmentController {
         return parentId == null ? index : index + "?selectedDepartmentId=" + parentId;
     }
 
-    //TODO Must be DELETE method
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         departmentsRepository.deleteDepartmentById(id);
 
