@@ -27,7 +27,7 @@
               th:object="${selectedDepartment}">
 
             <input class="button clear" type="submit"
-                   value="Delete department"/>
+                   value="🗑"/>
         </form>
 
         <form th:if="${selectedDepartment != null}"
@@ -40,7 +40,7 @@
                    id="name"/>
 
             <input class="button clear" type="submit"
-                   value="Update department"/>
+                   value="🔄"/>
         </form>
         <br/>
         <br/>
@@ -57,8 +57,13 @@
                    id="newDepartmentName"/>
 
             <input class="button clear" type="submit"
-                   value="Create department"/>
+                   value="🆕"/>
         </form>
+
+        <h3 th:if="${selectedDepartment != null}"><a
+                th:href="@{/user/(departmentId = ${selectedDepartment.getId()})}">Department
+            users</a>
+        </h3>
     </div>
 </div>
 <div id="bottom"></div>

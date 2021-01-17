@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/css/departmentIndex.css">
+</head>
+<body>
+<div id="top"></div>
+
+<div style=" flex-direction: row">
+    <div id="rectangle1" class="column" style="float: left">
+        <h2><a href="/department">Departments</a></h2>
+        <form th:method="GET" th:action="@{/user}">
+
+            <input type="text" style="font-size: large"
+                   name="searchName">
+            <input type="submit" placeholder="Search..." value="🔍">
+        </form>
+        <ul>
+            <li th:each="user : ${userList}">
+                <a th:text="${user}"
+                   th:href="@{/user(selectedUserId = ${user.getId()}, departmentId = ${user.getDepartment().getId()})}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="rectangle2" class="column" style="float: right">
+        <h2 th:text="${selectedUser == null ? 'Add new user' : 'Edit user'}" ></h2>
+
+        <form th:if="${selectedUser != null}"
+              th:method="POST"
+              th:action="@{/user/delete/{id}(id=${selectedUser.getId()})}"
+              th:object="${selectedUser}">
+
+            <input class="button clear" type="submit"
+                   value="🗑"/>
+        </form>
+
+        <form th:if="${selectedUser != null}"
+              th:method="POST"
+              th:action="@{/user/edit/{id}(id=${selectedUser.getId()})}"
+              th:object="${selectedUser}">
+
+            <label for="name" style="font-size: x-large">Name: </label>
+            <input type="text" style="font-size: large" th:field="*{name}"
+                   id="name"/>
+            <br/>
+
+            <label for="age" style="font-size: x-large">Age: </label>
+            <input type="text" style="font-size: large" th:field="*{age}"
+                   id="age"/>
+            <br/>
+
+            <label for="phoneNumber" style="font-size: x-large">Phone: </label>
+            <input type="text" style="font-size: large" th:field="*{phoneNumber}"
+                   id="phoneNumber"/>
+            <br/>
+
+            <label for="departmentId"
+                   style="font-size: x-large">Department: </label>
+            <select th:field="*{department.id}" id="departmentId">
+                <option th:each="department : ${departments}"
+                        th:value="${department.id}"
+                        th:text="${department.name}"></option>
+            </select>
+
+            <input class="button clear" type="submit"
+                   value="🔄"/>
+        </form>
+        <br/>
+
+        <form th:if="${selectedUser == null}"
+              th:method="POST"
+              th:action="@{/user/create}"
+              th:object="${newUser}">
+
+            <label for="newUsername" style="font-size: x-large">Name: </label>
+            <input type="text" style="font-size: large" th:field="*{name}"
+                   id="newUsername"/>
+            <br/>
+
+            <label for="newUserAge" style="font-size: x-large">Age: </label>
+            <input type="text" style="font-size: large" th:field="*{age}"
+                   id="newUserAge"/>
+            <br/>
+
+            <label for="newUserPhoneNumber" style="font-size: x-large">Phone: </label>
+            <input type="text" style="font-size: large" th:field="*{phoneNumber}"
+                   id="newUserPhoneNumber"/>
+            <br/>
+
+            <label for="newUserDepartmentId"
+                   style="font-size: x-large">Department: </label>
+            <select th:field="*{department.id}" id="newUserDepartmentId">
+                <option th:each="department : ${departments}"
+                        th:value="${department.id}"
+                        th:text="${department.name}"></option>
+            </select>
+
+            <input class="button clear" type="submit"
+                   value="🔄"/>
+        </form>
+        <br/>
+    </div>
+</div>
+
+<div id="bottom"></div>
+</body>
+</html>
