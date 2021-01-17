@@ -8,54 +8,59 @@
 <body>
 
 <div id="top"></div>
-<div id="rectangle1" class="column" style="float: left">
-    <h2><a href="/department">Departments</a></h2>
-    <br/>
 
-    <div th:insert="/department/departmentsTree :: tree"
-         th:with="departments = ${rootDepartments}"></div>
+<div style=" flex-direction: row">
+    <div id="rectangle1" class="column" style="float: left">
+        <h2><a href="/department">Departments</a></h2>
+
+        <div th:insert="/department/departmentsTree :: tree"
+             th:with="departments = ${rootDepartments}"></div>
+    </div>
+
+    <div id="rectangle2" class="column" style="float: right">
+        <h2 th:if="${selectedDepartment != null}">Edit
+            department</h2>
+
+        <form th:if="${selectedDepartment != null}"
+              th:method="POST"
+              th:action="@{/department/delete/{id}(id=${selectedDepartment.getId()})}"
+              th:object="${selectedDepartment}">
+
+            <input class="button clear" type="submit"
+                   value="Delete department"/>
+        </form>
+
+        <form th:if="${selectedDepartment != null}"
+              th:method="POST"
+              th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
+              th:object="${selectedDepartment}">
+
+            <label for="name" style="font-size: x-large">Name: </label>
+            <input type="text" style="font-size: large" th:field="*{name}"
+                   id="name"/>
+
+            <input class="button clear" type="submit"
+                   value="Update department"/>
+        </form>
+        <br/>
+        <br/>
+
+        <h2 th:text="${selectedDepartment == null ? 'Add root department' : 'Add child department'}"></h2>
+
+        <form th:method="POST"
+              th:action="@{/department/create(parentId = ${selectedDepartment == null ? null : selectedDepartment.getId()})}"
+              th:object="${newDepartment}">
+
+            <label for="newDepartmentName"
+                   style="font-size: x-large">Name: </label>
+            <input type="text" style="font-size: large" th:field="*{name}"
+                   id="newDepartmentName"/>
+
+            <input class="button clear" type="submit"
+                   value="Create department"/>
+        </form>
+    </div>
 </div>
-
-<div id="rectangle2" class="column" style="float: right">
-    <h2 th:if="${selectedDepartment != null}">Edit
-        department</h2>
-
-    <form th:if="${selectedDepartment != null}"
-          th:method="POST"
-          th:action="@{/department/delete/{id}(id=${selectedDepartment.getId()})}"
-          th:object="${selectedDepartment}">
-
-        <input class="button clear" type="submit" value="Delete department"/>
-    </form>
-
-    <form th:if="${selectedDepartment != null}"
-          th:method="POST"
-          th:action="@{/department/edit/{id}(id=${selectedDepartment.getId()})}"
-          th:object="${selectedDepartment}">
-
-        <label for="name" style="font-size: x-large">Name: </label>
-        <input type="text" style="font-size: large" th:field="*{name}"
-               id="name"/>
-
-        <input class="button clear" type="submit" value="Update department"/>
-    </form>
-    <br/>
-    <br/>
-
-    <h2 th:text="${selectedDepartment == null ? 'Add root department' : 'Add child department'}"></h2>
-
-    <form th:method="POST"
-          th:action="@{/department/create(parentId = ${selectedDepartment == null ? null : selectedDepartment.getId()})}"
-          th:object="${newDepartment}">
-
-        <label for="newDepartmentName" style="font-size: x-large">Name: </label>
-        <input type="text" style="font-size: large" th:field="*{name}"
-               id="newDepartmentName"/>
-
-        <input class="button clear" type="submit" value="Create department"/>
-    </form>
-</div>
-
 <div id="bottom"></div>
 </body>
 </html>

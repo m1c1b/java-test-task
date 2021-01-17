@@ -9,7 +9,7 @@ body {
 #rectangle1 {
     width: 50%;
     background: #2c2f34;
-    border-radius: 5px;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -21,7 +21,7 @@ body {
 #rectangle2 {
     width: 50%;
     background: #2c2f34;
-    border-radius: 5px;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
