@@ -29,7 +29,7 @@
     <div id="rectangle2" class="column" style="float: right">
 
         <div style="width: 20%; height: 100%"></div>
-        <div style="flex-direction: column">
+        <div style="flex-direction: column; align-items: center; justify-content: center;">
             <h2 th:text="${selectedUser == null ? 'Add new user' : 'Edit user'}"></h2>
 
             <form th:if="${selectedUser != null}"
@@ -39,7 +39,7 @@
 
                 <!--/*@thymesVar id="errors" type="java.util.List<java.lang.String>"*/-->
                 <ul th:if="${errors != null && errors.size() > 0}"
-                    style="color: red">
+                    style="width: 100%;color: red">
                     <li th:each="error : ${errors}" th:text="${error}"></li>
                 </ul>
 
@@ -89,7 +89,7 @@
 
                 <!--/*@thymesVar id="errors" type="java.util.List<java.lang.String>"*/-->
                 <ul th:if="${errors != null && errors.size() > 0}"
-                    style="color: red">
+                    style="width: 100%; color: red">
                     <li th:each="error : ${errors}" th:text="${error}"></li>
                 </ul>
 

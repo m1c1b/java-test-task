@@ -20,8 +20,7 @@
     <div id="rectangle2" class="column" style="float: right">
         <div style="width: 20%; height: 100%"></div>
 
-        <div style="flex-direction: column;    align-items: center;
-    justify-content: center;">
+        <div style="flex-direction: column;align-items: center;justify-content: center;">
             <h2 th:text="${selectedDepartment == null ? 'Add root department' : 'Add child department'}"></h2>
 
             <form th:method="POST"
@@ -30,7 +29,7 @@
 
                 <!--/*@thymesVar id="createErrors" type="java.util.List<java.lang.String>"*/-->
                 <ul th:if="${createErrors != null && createErrors.size() > 0}"
-                    style="color: red">
+                    style="width: 100%; color: red">
                     <li th:each="error : ${createErrors}"
                         th:text="${error}"></li>
                 </ul>
@@ -54,7 +53,7 @@
 
                 <!--/*@thymesVar id="editErrors" type="java.util.List<java.lang.String>"*/-->
                 <ul th:if="${editErrors != null && editErrors.size() > 0}"
-                    style="color: red">
+                    style="width: 100%; color: red">
                     <li th:each="error : ${editErrors}" th:text="${error}"></li>
                 </ul>
 

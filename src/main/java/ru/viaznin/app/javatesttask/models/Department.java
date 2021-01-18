@@ -19,7 +19,7 @@ public class Department {
     private long id;
 
     @Column(name = "name")
-    @Size(min = 1, message = "Department name length must be more than one symbol")
+    @Size(min = 1, message = "Department name too short")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

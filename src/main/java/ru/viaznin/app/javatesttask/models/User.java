@@ -19,7 +19,7 @@ public class User {
     private long id;
 
     @Column(name = "name")
-    @Size(min = 2, max = 20, message = "Username length must be between 2 and 20 symbols")
+    @Size(min = 2, message = "Username too short")
     private String name;
 
     @Column(name = "age")
